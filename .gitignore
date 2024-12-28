@@ -13,3 +13,8 @@
 /UserServiceTest/bin/Debug/net8.0
 /UserServiceTest/obj/Debug/net8.0
 /UserServiceTest/obj
+/Application/obj/Debug/net8.0
+/Application/obj
+/Domain/obj/Debug/net8.0
+/Domain/obj
+/Infrastructure/obj
