@@ -1,0 +1,19 @@
+﻿using Domain.ValueObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.Model
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string BirthdayDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public Email Email { get; set; }
+
+    }
+}
