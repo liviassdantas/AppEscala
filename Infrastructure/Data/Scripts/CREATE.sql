@@ -1,0 +1,16 @@
+﻿CREATE DATABASE UserDatabase;
+
+USE UserDatabase;
+
+CREATE TABLE Users (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    BirthdayDate VARCHAR(10) NOT NULL,
+    PhoneNumber VARCHAR(14) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Team VARCHAR(50) NOT NULL,
+    Team_Function VARCHAR(50) NOT NULL,
+    IsLeader TINYINT(1) NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
