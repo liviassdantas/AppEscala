@@ -20,3 +20,5 @@
 /Infrastructure/obj
 /Domain/bin/Debug/net8.0
 /UserService/bin/Debug/net8.0
+/Application/bin/Debug/net8.0
+/Infrastructure/bin/Debug/net8.0

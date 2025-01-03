@@ -1,4 +1,4 @@
-﻿CREATE DATABASE UserDatabase;
+﻿CREATE DATABASE IF NOT EXISTS UserDatabase;
 
 USE UserDatabase;
 

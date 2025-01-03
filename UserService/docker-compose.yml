@@ -2,11 +2,11 @@
   mariadb:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: HolyEscalasUsuario
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: UserDatabase
       MYSQL_USER: Admin
       MYSQL_PASSWORD: UsuarioAdmin
     volumes:
-      - ./Infrastructure/Data/Scripts/CREATE.sql:/docker-entrypoint-initdb.d/init.sql
+    - C:/Users/livia/source/repos/HolyEscala/Infrastructure/Data/Scripts/CREATE.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
