@@ -1,12 +1,12 @@
-﻿using Domain.Enums;
-using Domain.ValueObjects;
+﻿using Core.Enums;
+using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model
+namespace Core.Entities
 {
     public class User(string name, string birthdayDate, string phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader = false)
     {
