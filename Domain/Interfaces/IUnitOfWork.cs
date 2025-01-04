@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Repositories
+namespace Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

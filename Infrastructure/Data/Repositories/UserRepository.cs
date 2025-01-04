@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
-using Infrastructure.Repositories.Core.Interfaces;
+using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
