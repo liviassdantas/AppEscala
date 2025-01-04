@@ -7,6 +7,6 @@
       MYSQL_USER: Admin
       MYSQL_PASSWORD: UsuarioAdmin
     volumes:
-    - C:/Users/livia/source/repos/HolyEscala/Infrastructure/Data/Scripts/CREATE.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./../Infrastructure//Data//Scripts//CREATE.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3306:3306"
+      - "3307:3306"
