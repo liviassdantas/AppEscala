@@ -18,6 +18,6 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
-        private AppDbContext AppDbContext { get { return _context as AppDbContext; } } // Implementar métodos específicos de UserRepository
+        private AppDbContext AppDbContext { get { return _context as AppDbContext; } } 
     }
 }
