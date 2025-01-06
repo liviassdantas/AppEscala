@@ -18,6 +18,10 @@ namespace Infrastructure.Data.Repositories
         {
             _context = context;
         }
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+        }
         private AppDbContext AppDbContext { get { return _context as AppDbContext; } } 
     }
 }

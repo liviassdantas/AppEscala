@@ -8,15 +8,30 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class User(string name, string birthdayDate, string phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader = false)
+    public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; } = name;
-        public string BirthdayDate { get; set; } = birthdayDate;
-        public string PhoneNumber { get; set; } = phoneNumber;
-        public Email Email { get; set; } = emailAddress;
-        public Team Team { get; set; } = userTeam;
-        public Team_Function Team_Function { get; set; } = userTeamFunction;
-        public bool IsLeader { get; set; } = isLeader;
+        public string Name { get; set; }
+        public string BirthdayDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public Email Email { get; set; }
+        public Team Team { get; set; }
+        public Team_Function Team_Function { get; set; }
+        public bool IsLeader { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public User() { }
+
+        public User(string name, string birthdayDate, string phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader)
+        {
+            Name = name;
+            BirthdayDate = birthdayDate;
+            PhoneNumber = phoneNumber;
+            Email = emailAddress;
+            Team = userTeam;
+            Team_Function = userTeamFunction;
+            IsLeader = isLeader;
+            CreatedAt = DateTime.UtcNow;
+        }
     }
 }
