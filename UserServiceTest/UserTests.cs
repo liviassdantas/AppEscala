@@ -13,7 +13,7 @@ using System.Configuration;
 namespace UserServiceTest
 {
     [TestFixture]
-    public class ShouldCreateAnUserTest
+    public class UserTests
     {
         private IConfiguration _configuration;
         private AppDbContext _context;
@@ -47,10 +47,21 @@ namespace UserServiceTest
             await _userRepository.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            var addedUsers = _context.Users.FindAsync(user.Id);
+            var addedUsers = _userRepository.FindUserByEmailAsync(user.Email.EmailAddress);
 
             Assert.IsNotNull(addedUsers);
             Assert.That("Fulano", Is.EqualTo(user.Name));
+        }
+
+        [Test]
+        public async Task ShouldValidateIfUserExistByEmail()
+        {
+            string email = "Fulano@gmail.com";
+
+            var userFounded = await _userRepository.FindUserByEmailAsync(email);
+
+            Assert.IsNotNull(userFounded);
+            Assert.That("Fulano", Is.EqualTo(userFounded.Name));
         }
     }
 }

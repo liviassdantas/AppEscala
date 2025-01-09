@@ -22,6 +22,13 @@ namespace Infrastructure.Data.Repositories
         {
             await _context.Users.AddAsync(user);
         }
+
+        public async Task<User> FindUserByEmailAsync(string email)
+        {
+            var user = await _context.Users.Include(e => e.Email).FirstOrDefaultAsync(user => user.Email.EmailAddress == email);
+            return user;
+        }
+        
         private AppDbContext AppDbContext { get { return _context as AppDbContext; } } 
     }
 }
