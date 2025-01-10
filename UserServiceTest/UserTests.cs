@@ -28,7 +28,7 @@ namespace UserServiceTest
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             _configuration = configurationBuilder.Build();
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(_configuration.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new Version(10, 5))).Options;
+                .UseMySql(_configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 5))).Options;
             _context = new AppDbContext(options);
             _userRepository = new UserRepository(_context);
         }
@@ -39,11 +39,11 @@ namespace UserServiceTest
                 new User("Fulano",
                 "04/03/1997",
                 "219999999",
-                new Email { EmailAddress = "fulano@gmail.com" },
+                new Email { EmailAddress = "fulanodasilva@gmail.com" },
                 Team.Music_Team,
                 Team_Function.Music_Team_Guitar,
                 false);
-           
+
             await _userRepository.AddAsync(user);
             await _context.SaveChangesAsync();
 
@@ -51,6 +51,21 @@ namespace UserServiceTest
 
             Assert.IsNotNull(addedUsers);
             Assert.That("Fulano", Is.EqualTo(user.Name));
+        }
+        [Test]
+        public void ShouldValidateIfUserExistsBeforeSave()
+        {
+            User user =
+                new User("Fulano",
+                "04/03/1997",
+                "219999999",
+                new Email { EmailAddress = "fulanodasilva@gmail.com" },
+                Team.Infantile_Team,
+                Team_Function.Infantile_Team_Childreen,
+                false);
+
+            var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await _userRepository.AddAsync(user));
+            Assert.That($"User {user.Name} already exists.", Is.EqualTo(ex.Message));
         }
 
         [Test]
