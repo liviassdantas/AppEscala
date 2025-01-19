@@ -22,33 +22,48 @@ namespace Infrastructure.Data.Repositories
         }
         public async Task AddAsync(User user)
         {
-            var userExists = await ValidateIfUserNotExists(user.Email.EmailAddress);
-            if (!userExists) 
-            {
-                await _context.Users.AddAsync(user);
-            }
-            else
+            if (await UserExistsByEmailAsync(user.Email.EmailAddress))
             {
                 throw new InvalidOperationException($"User {user.Name} already exists.");
             }
+            await _context.Users.AddAsync(user);
         }
 
         public async Task<User> FindUserByEmailAsync(string email)
         {
-            var user = await _context.Users.Include(e => e.Email).FirstOrDefaultAsync(user => user.Email.EmailAddress == email);
+            var user  = await _context.Users.Include(e => e.Email).FirstOrDefaultAsync(u => u.Email.EmailAddress == email);
             return user;
         }
 
-        private async Task<bool> ValidateIfUserNotExists(string email)
+        public async Task<User> FindUserByPhoneNumberAsync(string phoneNumber)
         {
-            var returnValidation = false;
-            var user = await FindUserByEmailAsync(email);
-            if (user != null)
-            {
-                returnValidation = true;
-            }
-            return returnValidation;
+            var user = await _context.Users.Include(e => e.PhoneNumber).FirstOrDefaultAsync(u => u.PhoneNumber.Number == phoneNumber);
+            return user;
         }
-        private AppDbContext AppDbContext { get { return _context as AppDbContext; } }
+
+        public async Task<bool> UserExistsByPhoneNumberAsync(string phoneNumber)
+        {
+            return await _context.Users.AnyAsync(u => u.PhoneNumber.Number == phoneNumber);
+        }
+
+        public async Task<bool> UserExistsByEmailAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email.EmailAddress == email);
+        }
+        public async Task FindUserAndDeleteByEmailAsync(string email)
+        {
+            var user = await FindUserByEmailAsync(email);
+            if ( user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+               throw new InvalidOperationException("User not found");
+            }
+        }
+
+        private AppDbContext AppDbContext => _context as AppDbContext;
     }
 }

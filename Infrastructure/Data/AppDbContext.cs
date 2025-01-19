@@ -29,13 +29,17 @@ namespace Infrastructure.Data
             entity.ToTable("Users");
             entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
             entity.Property(e => e.BirthdayDate).IsRequired().HasMaxLength(10);
-            entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(14);
             ConfigureEmailAddress(entity);
             ConfigureEnumProperties(entity);
+            ConfigurePhoneNumber(entity);
         }
         private void ConfigureEmailAddress(EntityTypeBuilder<User> entity)
         {
             entity.OwnsOne(e => e.Email, a => { a.Property(addressEmail => addressEmail.EmailAddress).HasColumnName("Email").IsRequired(); });
+        }
+        private void ConfigurePhoneNumber(EntityTypeBuilder<User> entity)
+        {
+            entity.OwnsOne(e => e.PhoneNumber, a => { a.Property(number => number.Number).HasColumnName("PhoneNumber").IsRequired(); });
         }
 
         private void ConfigureEnumProperties(EntityTypeBuilder<User> entity)

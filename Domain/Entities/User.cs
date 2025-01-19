@@ -13,7 +13,7 @@ namespace Core.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string BirthdayDate { get; set; }
-        public string PhoneNumber { get; set; }
+        public PhoneNumber PhoneNumber { get; set; }
         public Email Email { get; set; }
         public Team Team { get; set; }
         public Team_Function Team_Function { get; set; }
@@ -22,7 +22,7 @@ namespace Core.Entities
 
         public User() { }
 
-        public User(string name, string birthdayDate, string phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader)
+        public User(string name, string birthdayDate, PhoneNumber phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader)
         {
             Name = name;
             BirthdayDate = birthdayDate;
