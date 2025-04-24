@@ -64,6 +64,40 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        public async Task UpdateAsync(User user)
+        {
+            var existingUser = await _context.Users.Include(e => e.Email)
+                                                   .Include(p => p.PhoneNumber)
+                                                   .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (existingUser == null)
+            {
+                throw new InvalidOperationException("User not found.");
+            }
+
+            if (await UserExistsByEmailAsync(user.Email.EmailAddress) && existingUser.Email.EmailAddress != user.Email.EmailAddress)
+            {
+                throw new InvalidOperationException($"Email {user.Email.EmailAddress} is already in use.");
+            }
+
+            if (await UserExistsByPhoneNumberAsync(user.PhoneNumber.Number) && existingUser.PhoneNumber.Number != user.PhoneNumber.Number)
+            {
+                throw new InvalidOperationException($"Phone number {user.PhoneNumber.Number} is already in use.");
+            }
+
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.PhoneNumber = user.PhoneNumber;
+            existingUser.BirthdayDate = user.BirthdayDate;
+            existingUser.Team = user.Team;
+            existingUser.Team_Function = user.Team_Function;
+            existingUser.IsLeader = user.IsLeader;
+
+            _context.Users.Update(existingUser);
+            await _context.SaveChangesAsync();
+        }
+
+
         private AppDbContext AppDbContext => _context as AppDbContext;
     }
 }

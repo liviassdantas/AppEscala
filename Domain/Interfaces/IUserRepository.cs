@@ -10,6 +10,7 @@ namespace Core.Interfaces
         Task<bool> UserExistsByPhoneNumberAsync(string phoneNumber);
         Task<bool> UserExistsByEmailAsync(string email);
         Task FindUserAndDeleteByEmailAsync(string email);
+        Task UpdateAsync(User user);
     }
 
 }
