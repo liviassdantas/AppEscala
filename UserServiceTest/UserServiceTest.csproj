@@ -41,7 +41,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Core.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\UserService\UserService.csproj" />
+    <ProjectReference Include="..\UserService\HolyEscalasWebService.csproj" />
   </ItemGroup>
 
 </Project>

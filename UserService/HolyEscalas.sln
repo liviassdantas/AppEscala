@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService.csproj", "{20828582-FCE8-4C57-90D9-E1B7F7491DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HolyEscalasWebService", "HolyEscalasWebService.csproj", "{20828582-FCE8-4C57-90D9-E1B7F7491DAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserServiceTest", "..\UserServiceTest\UserServiceTest.csproj", "{7DD20D98-653D-4F40-A994-C66F35130C8B}"
 EndProject
