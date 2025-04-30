@@ -24,7 +24,7 @@ namespace Infrastructure.Data.Repositories
         {
             if (await UserExistsByEmailAsync(user.Email.EmailAddress))
             {
-                throw new InvalidOperationException($"User {user.Name} already exists.");
+                throw new InvalidOperationException($"O usuário {user.Name} já está cadastrado no sistema.");
             }
             await _context.Users.AddAsync(user);
         }
@@ -60,7 +60,7 @@ namespace Infrastructure.Data.Repositories
             }
             else
             {
-               throw new InvalidOperationException("User not found");
+               throw new InvalidOperationException("O usuário não pôde ser localizado.");
             }
         }
 
@@ -72,17 +72,17 @@ namespace Infrastructure.Data.Repositories
 
             if (existingUser == null)
             {
-                throw new InvalidOperationException("User not found.");
+                throw new InvalidOperationException("O usuário não pôde ser localizado.");
             }
 
             if (await UserExistsByEmailAsync(user.Email.EmailAddress) && existingUser.Email.EmailAddress != user.Email.EmailAddress)
             {
-                throw new InvalidOperationException($"Email {user.Email.EmailAddress} is already in use.");
+                throw new InvalidOperationException($"Esse email {user.Email.EmailAddress} já está sendo utilizado.");
             }
 
             if (await UserExistsByPhoneNumberAsync(user.PhoneNumber.Number) && existingUser.PhoneNumber.Number != user.PhoneNumber.Number)
             {
-                throw new InvalidOperationException($"Phone number {user.PhoneNumber.Number} is already in use.");
+                throw new InvalidOperationException($"Esse número de telefone {user.PhoneNumber.Number} já está sendo utilizado.");
             }
 
             existingUser.Name = user.Name;
