@@ -26,5 +26,12 @@ namespace HolyEscalasWebService.Controllers
             }
             return CreatedAtAction(nameof(SaveUser), new { name = userDTO.Name}, userDTO);
         }
+
+        [HttpGet]
+        public async Task<UserDTO> GetUserByEmailOrPhone (string? email, string? phoneNumber)
+        {
+            var result = await _userService.GetUserByEmailOrPhone(email, phoneNumber);
+            return result;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Application.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
+        public string BirthdayDate { get; set; }
         public Team Team { get; set; }
         public Team_Function Team_Function { get; set; }
         public bool IsLeader { get; set; } = false;

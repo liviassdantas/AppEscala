@@ -14,7 +14,7 @@ namespace Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository) 
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -34,6 +34,7 @@ namespace Application.Services
                         Team = userDTO.Team,
                         Team_Function = userDTO.Team_Function,
                         IsLeader = userDTO.IsLeader,
+                        BirthdayDate = userDTO.BirthdayDate,
                     };
 
                     await _userRepository.AddAsync(userToSave);
@@ -62,6 +63,35 @@ namespace Application.Services
                     Message = ex.Message,
                     Success = false,
                 };
+            }
+        }
+
+        public async Task<UserDTO> GetUser(string? email, string? phoneNumber)
+        {
+            try
+            {
+                var userFounded = new User();
+                if (!String.IsNullOrEmpty(email))
+                    userFounded = await _userRepository.FindUserByEmailAsync(email);
+                if(!String.IsNullOrEmpty(phoneNumber))
+                    userFounded = await _userRepository.FindUserByPhoneNumberAsync(phoneNumber);
+
+                var userToReturn = new UserDTO
+                {
+                    Email = userFounded.Email.EmailAddress,
+                    IsLeader = userFounded.IsLeader,
+                    Name = userFounded.Name,
+                    PhoneNumber = userFounded.PhoneNumber.Number,
+                    Team = userFounded.Team,
+                    Team_Function = userFounded.Team_Function,
+                    BirthdayDate = userFounded.BirthdayDate,
+                };
+                return userToReturn;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

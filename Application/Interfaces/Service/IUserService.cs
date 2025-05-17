@@ -10,5 +10,6 @@ namespace Application.Interfaces.Service
     public interface IUserService
     {
         Task<ServiceResult> SaveUser(UserDTO userDTO);
+        Task<UserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber);
     }
 }
