@@ -1,5 +1,5 @@
 ﻿using Application.DTO;
-using Application.Interfaces.Repository;
+using Core.Interfaces;
 using Application.Interfaces.Service;
 using Core.Entities;
 using Core.ValueObjects;
@@ -66,7 +66,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<UserDTO> GetUser(string? email, string? phoneNumber)
+        public async Task<UserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
         {
             try
             {

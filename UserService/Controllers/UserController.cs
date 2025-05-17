@@ -16,6 +16,11 @@ namespace HolyEscalasWebService.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// It's save an user
+        /// </summary>
+        /// <param name="userDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> SaveUser(UserDTO userDTO)
         {
@@ -27,6 +32,12 @@ namespace HolyEscalasWebService.Controllers
             return CreatedAtAction(nameof(SaveUser), new { name = userDTO.Name}, userDTO);
         }
 
+        /// <summary>
+        /// Get the user by email or phoneNumber
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<UserDTO> GetUserByEmailOrPhone (string? email, string? phoneNumber)
         {
