@@ -2,6 +2,7 @@
 using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Application.DTO
         public UserDTO(
            string name,
            Email email,
+           Password password,
            PhoneNumber phoneNumber,
            string birthdayDate,
            Team team,
@@ -23,6 +25,7 @@ namespace Application.DTO
             Name = name;
             Email = email.EmailAddress;
             PhoneNumber = phoneNumber.Number;
+            Password = password.UserPassword;
             BirthdayDate = birthdayDate;
             Team = team;
             Team_Function = team_Function;
@@ -31,7 +34,7 @@ namespace Application.DTO
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        //public string Password { get; set; }
+        public string Password { get; set; }
         public string BirthdayDate { get; set; }
         public Team Team { get; set; }
         public Team_Function Team_Function { get; set; }
