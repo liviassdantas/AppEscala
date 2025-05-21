@@ -35,6 +35,7 @@ namespace Application.Services
                         Team_Function = userDTO.Team_Function,
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
+                        CreatedAt = DateTime.Now
                     };
 
                     await _userRepository.AddAsync(userToSave);

@@ -27,6 +27,7 @@ namespace Infrastructure.Data.Repositories
                 throw new InvalidOperationException($"O usuário {user.Name} já está cadastrado no sistema.");
             }
            await _context.Users.AddAsync(user);
+           await _context.SaveChangesAsync();
         }
 
         public async Task<User> FindUserByEmailAsync(string email)
