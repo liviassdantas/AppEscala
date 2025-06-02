@@ -3,6 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserService\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5DAA5B79-E12D-43D3-B106-725480932757}|..\\Domain\\Core.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17B241B9-7378-488B-960F-505F41CF280A}|..\\Application\\Application.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\application\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DAA5B79-E12D-43D3-B106-725480932757}|..\\Domain\\Core.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\domain\\valueobjects\\password.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7DD20D98-653D-4F40-A994-C66F35130C8B}|..\\UserServiceTest\\UserServiceTest.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\userservicetest\\integrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -10,9 +19,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{17B241B9-7378-488B-960F-505F41CF280A}|..\\Application\\Application.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\application\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{17B241B9-7378-488B-960F-505F41CF280A}|..\\Application\\Application.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\application\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{20828582-FCE8-4C57-90D9-E1B7F7491DAB}|HolyEscalasWebService.csproj|c:\\users\\livia_s8vlfxi\\source\\repos\\appescala\\userservice\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,24 +56,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Domain\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "..\\Domain\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Domain\\Entities\\User.cs",
+              "RelativeToolTip": "..\\Domain\\Entities\\User.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBQAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T02:15:20.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Password.cs",
+              "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Domain\\ValueObjects\\Password.cs",
+              "RelativeDocumentMoniker": "..\\Domain\\ValueObjects\\Password.cs",
+              "ToolTip": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Domain\\ValueObjects\\Password.cs",
+              "RelativeToolTip": "..\\Domain\\ValueObjects\\Password.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T02:13:49.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "UserDTO.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Application\\DTO\\UserDTO.cs",
               "RelativeDocumentMoniker": "..\\Application\\DTO\\UserDTO.cs",
               "ToolTip": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Application\\DTO\\UserDTO.cs",
               "RelativeToolTip": "..\\Application\\DTO\\UserDTO.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAwCQAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-21T01:52:05.328Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "UserTests.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserServiceTest\\UserTests.cs",
               "RelativeDocumentMoniker": "..\\UserServiceTest\\UserTests.cs",
@@ -80,20 +112,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "IntegrationTest.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserServiceTest\\IntegrationTest.cs",
               "RelativeDocumentMoniker": "..\\UserServiceTest\\IntegrationTest.cs",
               "ToolTip": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserServiceTest\\IntegrationTest.cs",
               "RelativeToolTip": "..\\UserServiceTest\\IntegrationTest.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAwwE8AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-21T01:44:27.245Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserService\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -106,7 +138,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "CREATE.sql",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Infrastructure\\Data\\Scripts\\CREATE.sql",
               "RelativeDocumentMoniker": "..\\Infrastructure\\Data\\Scripts\\CREATE.sql",
@@ -117,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Infrastructure\\Data\\Repositories\\UserRepository.cs",
               "RelativeDocumentMoniker": "..\\Infrastructure\\Data\\Repositories\\UserRepository.cs",
@@ -130,7 +162,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Application\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "..\\Application\\Services\\UserService.cs",
@@ -143,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Dockerfile",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserService\\Dockerfile",
               "RelativeDocumentMoniker": "Dockerfile",
@@ -156,7 +188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserService\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserController.cs",
@@ -169,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\UserService\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -181,7 +213,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "IUserService.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Application\\Interfaces\\Service\\IUserService.cs",
               "RelativeDocumentMoniker": "..\\Application\\Interfaces\\Service\\IUserService.cs",
@@ -193,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "ServiceResult.cs",
               "DocumentMoniker": "C:\\Users\\livia_s8vlfxi\\source\\repos\\AppEscala\\Application\\DTO\\ServiceResult.cs",
               "RelativeDocumentMoniker": "..\\Application\\DTO\\ServiceResult.cs",
