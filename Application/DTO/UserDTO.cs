@@ -18,8 +18,7 @@ namespace Application.DTO
            Password password,
            PhoneNumber phoneNumber,
            string birthdayDate,
-           Team team,
-           Team_Function team_Function,
+           List<TeamsAndFunctions> teams,
            bool isLeader = false)
         {
             Name = name;
@@ -27,8 +26,7 @@ namespace Application.DTO
             PhoneNumber = phoneNumber.Number;
             Password = password.UserPassword;
             BirthdayDate = birthdayDate;
-            Team = team;
-            Team_Function = team_Function;
+            IList<TeamsAndFunctions> teamsList = teams;
             IsLeader = isLeader;
         }
         public string Name { get; set; }
@@ -36,8 +34,7 @@ namespace Application.DTO
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string BirthdayDate { get; set; }
-        public Team Team { get; set; }
-        public Team_Function Team_Function { get; set; }
+        public IList<TeamsAndFunctions> Teams { get; set; } = new List<TeamsAndFunctions>();
         public bool IsLeader { get; set; } = false;
     }
 }

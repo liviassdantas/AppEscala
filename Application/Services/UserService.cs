@@ -31,10 +31,10 @@ namespace Application.Services
                         Name = userDTO.Name,
                         Email = new Email { EmailAddress = userDTO.Email },
                         PhoneNumber = new PhoneNumber { Number = userDTO.PhoneNumber },
-                        Team = userDTO.Team,
-                        Team_Function = userDTO.Team_Function,
+                        Teams = userDTO.Teams,
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
+                        Password = new Password { UserPassword = userDTO.Password },
                         CreatedAt = DateTime.Now
                     };
 
@@ -83,8 +83,7 @@ namespace Application.Services
                     IsLeader = userFounded.IsLeader,
                     Name = userFounded.Name,
                     PhoneNumber = userFounded.PhoneNumber.Number,
-                    Team = userFounded.Team,
-                    Team_Function = userFounded.Team_Function,
+                    Teams = userFounded.Teams.ToList(),
                     BirthdayDate = userFounded.BirthdayDate,
                 };
                 return userToReturn;

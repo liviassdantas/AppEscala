@@ -16,22 +16,20 @@ namespace Core.Entities
         public Password Password { get; set; }
         public PhoneNumber PhoneNumber { get; set; }
         public Email Email { get; set; }
-        public Team Team { get; set; }
-        public Team_Function Team_Function { get; set; }
+        public ICollection<TeamsAndFunctions> Teams { get; set; }
         public bool IsLeader { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public User() { }
 
-        public User(string name, string birthdayDate, Password password, PhoneNumber phoneNumber, Email emailAddress, Team userTeam, Team_Function userTeamFunction, bool isLeader)
+        public User(string name, string birthdayDate, Password password, PhoneNumber phoneNumber, Email emailAddress, ICollection<TeamsAndFunctions> teams, bool isLeader)
         {
             Name = name;
             BirthdayDate = birthdayDate;
             Password = password;
             PhoneNumber = phoneNumber;
             Email = emailAddress;
-            Team = userTeam;
-            Team_Function = userTeamFunction;
+            Teams = teams;
             IsLeader = isLeader;
             CreatedAt = DateTime.UtcNow;
         }

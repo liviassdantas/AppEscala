@@ -90,15 +90,12 @@ namespace Infrastructure.Data.Repositories
             existingUser.Email = user.Email;
             existingUser.PhoneNumber = user.PhoneNumber;
             existingUser.BirthdayDate = user.BirthdayDate;
-            existingUser.Team = user.Team;
-            existingUser.Team_Function = user.Team_Function;
+            existingUser.Teams = user.Teams;
             existingUser.IsLeader = user.IsLeader;
 
             _context.Users.Update(existingUser);
             await _context.SaveChangesAsync();
         }
 
-
-        private AppDbContext AppDbContext => _context as AppDbContext;
     }
 }

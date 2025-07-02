@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Enums;
+using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
@@ -30,7 +32,7 @@ namespace Infrastructure.Data
             entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
             entity.Property(e => e.BirthdayDate).IsRequired().HasMaxLength(10);
             ConfigureEmailAddress(entity);
-            ConfigureEnumProperties(entity);
+            ConfigureTeams(entity);
             ConfigurePhoneNumber(entity);
         }
         private void ConfigureEmailAddress(EntityTypeBuilder<User> entity)
@@ -41,14 +43,14 @@ namespace Infrastructure.Data
         {
             entity.OwnsOne(e => e.PhoneNumber, a => { a.Property(number => number.Number).HasColumnName("PhoneNumber").IsRequired(); });
         }
-
-        private void ConfigureEnumProperties(EntityTypeBuilder<User> entity)
+        private void ConfigureTeams(EntityTypeBuilder<User> entity)
         {
-            var teamConverter = new EnumToStringConverter<Team>();
-            entity.Property(e => e.Team).HasConversion(teamConverter);
-            var teamFunctionConverter = new EnumToStringConverter<Team_Function>();
-            entity.Property(e => e.Team_Function).HasConversion(teamFunctionConverter); entity.Property(e => e.IsLeader);
+            entity.HasKey(u => u.Id);
+
+            // Outras configurações da entidade User
+            entity.OwnsMany(u => u.Teams, new TeamsAndFunctionsRelationshipConfiguration().Configure);
         }
+
     }
 }
 
