@@ -27,15 +27,23 @@ namespace UserServiceTest
         {
             _mockUserService = new Mock<IUserService>();
             _userController = new UserController(_mockUserService.Object);
-            _mockUser = new UserDTO(
-               "Fulano2",
-               new Email { EmailAddress = "fulanodasilva2@gmail.com" },
-               new PhoneNumber { Number = "+5524994210951" },
-               "04/03/1997",
-               Team.Music_Team,
-               Team_Function.Music_Team_Guitar,
-               false
-           );
+            _mockUser = new UserDTO
+            {
+                Name = "Fulano2",
+                Email = "fulanodasilva2@gmail.com",
+                PhoneNumber = "+5524994210951",
+                Password = "12345678",
+                BirthdayDate = "04/03/1997",
+                Teams = new List<TeamsAndFunctions> 
+                {
+                    new TeamsAndFunctions 
+                    { 
+                        Teams = Team.Music_Team,
+                        Functions = Team_Function.Music_Team_Guitar,
+                    }
+                },
+                IsLeader = false
+            };
         }
         [Test]
         public async Task SaveUser_ShouldReturnCreated_WhenSuccess()
@@ -71,13 +79,12 @@ namespace UserServiceTest
 
             var result = await _userController.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null);
 
-            Assert.AreEqual(expectedUser.Name, result.Name);
+            Assert.That(result.Name, Is.EqualTo(expectedUser.Name));
         }
         [Test]
         public async Task GetUserByEmailOrPhone_ShouldReturnNull_WhenUserNotFound()
         {
-            _mockUserService.Setup(s => s.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null))
-                            .ReturnsAsync((UserDTO)null);
+            _mockUserService.Setup(s => s.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null)).ReturnsAsync((UserDTO)null);
             var result = await _userController.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null);
             Assert.IsNull(result);
         }
