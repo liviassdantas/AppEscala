@@ -3,7 +3,6 @@ using Application.Interfaces.Service;
 using Core.Entities;
 using Core.Enums;
 using Core.Interfaces;
-using Core.ValueObjects;
 using HolyEscalasWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

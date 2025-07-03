@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.ValueObjects
+namespace Core.Entities
 {
     public class TeamsAndFunctions
     {
@@ -14,7 +14,9 @@ namespace Core.ValueObjects
             Teams = new Team();
             Functions = new Team_Function();
         }
+        public int Id { get; set; }
         public Team Teams { get; set; }
         public Team_Function Functions { get; set; }
+        public ICollection<UserTeam> UserTeams { get; set; }
     } 
 }

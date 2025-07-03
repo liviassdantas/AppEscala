@@ -22,7 +22,7 @@ namespace HolyEscalasWebService.Controllers
         /// <param name="userDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SaveUser(UserDTO userDTO)
+        public async Task<IActionResult> SaveUser(SaveUserDTO userDTO)
         {
             var result = await _userService.SaveUser(userDTO);
             if (!result.Success)
@@ -39,7 +39,7 @@ namespace HolyEscalasWebService.Controllers
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<UserDTO> GetUserByEmailOrPhone (string? email, string? phoneNumber)
+        public async Task<GetUserDTO> GetUserByEmailOrPhone (string? email, string? phoneNumber)
         {
             var result = await _userService.GetUserByEmailOrPhone(email, phoneNumber);
             return result;

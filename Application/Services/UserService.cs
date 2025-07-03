@@ -19,7 +19,7 @@ namespace Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ServiceResult> SaveUser(UserDTO userDTO)
+        public async Task<ServiceResult> SaveUser(SaveUserDTO userDTO)
         {
             try
             {
@@ -31,12 +31,15 @@ namespace Application.Services
                         Name = userDTO.Name,
                         Email = new Email { EmailAddress = userDTO.Email },
                         PhoneNumber = new PhoneNumber { Number = userDTO.PhoneNumber },
-                        Teams = userDTO.Teams,
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
                         Password = new Password { UserPassword = userDTO.Password },
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.Now,
+                        Teams = [] 
                     };
+
+                    var teamsToSave = CreateUserTeams(userToSave, userDTO.Teams);
+                    userToSave.Teams = teamsToSave;
 
                     await _userRepository.AddAsync(userToSave);
 
@@ -46,7 +49,6 @@ namespace Application.Services
                         Success = true,
                         User = userToSave
                     };
-
                 }
                 else
                 {
@@ -67,7 +69,22 @@ namespace Application.Services
             }
         }
 
-        public async Task<UserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
+        // Helper method to create UserTeam instances
+        private IList<UserTeam> CreateUserTeams(User user, IList<TeamsAndFunctions> teams)
+        {
+            var userTeams = new List<UserTeam>();
+            foreach (var team in teams)
+            {
+                userTeams.Add(new UserTeam
+                {
+                    User = user,
+                    Teams = team
+                });
+            }
+            return userTeams;
+        }
+
+        public async Task<GetUserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
         {
             try
             {
@@ -77,7 +94,7 @@ namespace Application.Services
                 if(!String.IsNullOrEmpty(phoneNumber))
                     userFounded = await _userRepository.FindUserByPhoneNumberAsync(phoneNumber);
 
-                var userToReturn = new UserDTO
+                var userToReturn = new GetUserDTO
                 {
                     Email = userFounded.Email.EmailAddress,
                     IsLeader = userFounded.IsLeader,
@@ -95,7 +112,7 @@ namespace Application.Services
             }
         }
 
-        private bool VerifyIfDTOFieldsAreEmpty(UserDTO userDTO)
+        private bool VerifyIfDTOFieldsAreEmpty(SaveUserDTO userDTO)
         {
             var isValid = true;
             if (userDTO == null) { return !isValid; throw new ArgumentNullException(nameof(userDTO)); };

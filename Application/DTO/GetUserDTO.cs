@@ -10,24 +10,22 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class SaveUserDTO
+    public class GetUserDTO
     {
-        public SaveUserDTO() { }
-        public SaveUserDTO(
+        public GetUserDTO() { }
+        public GetUserDTO(
            string name,
            Email email,
-           Password password,
            PhoneNumber phoneNumber,
            string birthdayDate,
-           List<TeamsAndFunctions> teams,
+           List<UserTeam> teams,
            bool isLeader = false)
         {
             Name = name;
             Email = email.EmailAddress;
             PhoneNumber = phoneNumber.Number;
-            Password = password.UserPassword;
             BirthdayDate = birthdayDate;
-            IList<TeamsAndFunctions> teamsList = teams;
+            IList<UserTeam> teamsList = teams;
             IsLeader = isLeader;
         }
         public string Name { get; set; }
@@ -35,7 +33,7 @@ namespace Application.DTO
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string BirthdayDate { get; set; }
-        public IList<TeamsAndFunctions> Teams { get; set; } = new List<TeamsAndFunctions>();
+        public IList<UserTeam> Teams { get; set; } = new List<UserTeam>();
         public bool IsLeader { get; set; } = false;
     }
 }

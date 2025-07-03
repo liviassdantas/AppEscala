@@ -10,18 +10,18 @@ public class TeamsAndFunctionsRelationshipConfiguration
     public void Configure(OwnedNavigationBuilder<User, TeamsAndFunctions> teams)
     {
         teams.WithOwner().HasForeignKey("UserId");
-        teams.ToTable("UserTeams");
+        teams.ToTable("TeamsAndFunctions");
 
         teams.Property<int>("Id"); 
         teams.HasKey("Id");
 
         teams.Property(t => t.Teams)
-             .HasColumnName("Team")
+             .HasColumnName("Teams")
              .HasConversion(new EnumToStringConverter<Team>())
              .IsRequired();
 
         teams.Property(f => f.Functions)
-             .HasColumnName("Function")
+             .HasColumnName("Functions")
              .HasConversion(new EnumToStringConverter<Team_Function>())
              .IsRequired();
     }
