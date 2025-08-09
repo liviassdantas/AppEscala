@@ -1,10 +1,13 @@
 ﻿using Application.DTO;
-using Core.Interfaces;
 using Application.Interfaces.Service;
 using Core.Entities;
+using Core.Interfaces;
+using Core.Interfaces.Entities;
+using Core.Mapper;
 using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,9 +40,10 @@ namespace Application.Services
                         CreatedAt = DateTime.Now,
                         Teams = [] 
                     };
+                    var mappedTeamsAndFunctions = TeamsAndFunctionsMapper.ToDomainList(userDTO.Teams);
+                    var teamsToSaveInUser = CreateUserTeams(userToSave, mappedTeamsAndFunctions);
+                    userToSave.Teams = teamsToSaveInUser;
 
-                    var teamsToSave = CreateUserTeams(userToSave, userDTO.Teams);
-                    userToSave.Teams = teamsToSave;
 
                     await _userRepository.AddAsync(userToSave);
 
@@ -69,18 +73,29 @@ namespace Application.Services
             }
         }
 
-        // Helper method to create UserTeam instances
-        private IList<UserTeam> CreateUserTeams(User user, IList<TeamsAndFunctions> teams)
+        private IList<UserTeam> CreateUserTeams(User user, IList<ITeamsAndFunctions> teams)
         {
             var userTeams = new List<UserTeam>();
+
             foreach (var team in teams)
             {
-                userTeams.Add(new UserTeam
+                var teamsAndFunctions = new TeamsAndFunctions
+                {
+                    Teams = team.Teams,
+                    Functions = team.Functions,
+                    UserTeams = new List<UserTeam>() 
+                };
+
+                var userTeam = new UserTeam
                 {
                     User = user,
-                    Teams = team
-                });
+                    Teams = teamsAndFunctions
+                };
+                teamsAndFunctions.UserTeams.Add(userTeam);
+
+                userTeams.Add(userTeam);
             }
+
             return userTeams;
         }
 
@@ -100,7 +115,7 @@ namespace Application.Services
                     IsLeader = userFounded.IsLeader,
                     Name = userFounded.Name,
                     PhoneNumber = userFounded.PhoneNumber.Number,
-                    Teams = userFounded.Teams.ToList(),
+                    Teams = GetTeamsAndFunctionsList(userFounded.Teams),
                     BirthdayDate = userFounded.BirthdayDate,
                 };
                 return userToReturn;
@@ -111,7 +126,20 @@ namespace Application.Services
                 throw new Exception(ex.Message);
             }
         }
-
+        private IList<TeamsAndFunctions> GetTeamsAndFunctionsList(ICollection<UserTeam> teamsList)
+        {
+            List<TeamsAndFunctions> teamsListToReturn = new List<TeamsAndFunctions>();
+            foreach(var userTeam in teamsList)
+            {
+                var teamsAndFunctions = new TeamsAndFunctions
+                {
+                    Teams = userTeam.Teams.Teams,
+                    Functions = userTeam.Teams.Functions
+                };
+                teamsListToReturn.Add(teamsAndFunctions);
+            }
+            return teamsListToReturn;
+        }
         private bool VerifyIfDTOFieldsAreEmpty(SaveUserDTO userDTO)
         {
             var isValid = true;

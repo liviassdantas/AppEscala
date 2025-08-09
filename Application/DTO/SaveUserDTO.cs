@@ -1,5 +1,7 @@
-﻿using Core.Entities;
+﻿using Core.DTO;
+using Core.Entities;
 using Core.Enums;
+using Core.Interfaces.Entities;
 using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace Application.DTO
            Password password,
            PhoneNumber phoneNumber,
            string birthdayDate,
-           List<TeamsAndFunctions> teams,
+           List<TeamsAndFunctionsDTO> teams,
            bool isLeader = false)
         {
             Name = name;
@@ -27,7 +29,7 @@ namespace Application.DTO
             PhoneNumber = phoneNumber.Number;
             Password = password.UserPassword;
             BirthdayDate = birthdayDate;
-            IList<TeamsAndFunctions> teamsList = teams;
+            IList<TeamsAndFunctionsDTO> teamsList = teams;
             IsLeader = isLeader;
         }
         public string Name { get; set; }
@@ -35,7 +37,7 @@ namespace Application.DTO
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string BirthdayDate { get; set; }
-        public IList<TeamsAndFunctions> Teams { get; set; } = new List<TeamsAndFunctions>();
+        public IList<TeamsAndFunctionsDTO> Teams { get; set; } 
         public bool IsLeader { get; set; } = false;
     }
 }
