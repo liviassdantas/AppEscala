@@ -126,6 +126,47 @@ namespace Application.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<UpdatedUserDTO> UpdateUser(UpdatedUserDTO user)
+        {
+            try
+            {
+                var userFounded = new User();
+                if (!String.IsNullOrEmpty(user.Email))
+                    userFounded = await _userRepository.FindUserByEmailAsync(user.Email);
+                if (!String.IsNullOrEmpty(user.PhoneNumber))
+                    userFounded = await _userRepository.FindUserByPhoneNumberAsync(user.PhoneNumber);
+
+                if (userFounded == null)
+                {
+                    new InvalidOperationException("Usuário não encontrado.");
+                }
+
+                userFounded.Name = user.Name ?? userFounded.Name;
+                userFounded.BirthdayDate = user.BirthdayDate ?? userFounded.BirthdayDate;
+                userFounded.IsLeader = user.IsLeader;
+                userFounded.Teams = [];
+                var mappedTeamsAndFunctions = TeamsAndFunctionsMapper.ToDomainList(user.Teams);
+                var teamsToSaveInUser = CreateUserTeams(userFounded, mappedTeamsAndFunctions);
+                userFounded.Teams = teamsToSaveInUser;
+
+
+                await _userRepository.UpdateAsync(userFounded);
+                return new UpdatedUserDTO
+                {
+                    Name = userFounded.Name,
+                    Email = userFounded.Email.EmailAddress,
+                    PhoneNumber = userFounded.PhoneNumber.Number,
+                    BirthdayDate = userFounded.BirthdayDate,
+                    IsLeader = userFounded.IsLeader,
+                    Teams = (IList<Core.DTO.TeamsAndFunctionsDTO>)GetTeamsAndFunctionsList(userFounded.Teams)
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private IList<TeamsAndFunctions> GetTeamsAndFunctionsList(ICollection<UserTeam> teamsList)
         {
             List<TeamsAndFunctions> teamsListToReturn = new List<TeamsAndFunctions>();

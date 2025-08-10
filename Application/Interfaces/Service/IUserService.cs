@@ -11,5 +11,6 @@ namespace Application.Interfaces.Service
     {
         Task<ServiceResult> SaveUser(SaveUserDTO userDTO);
         Task<GetUserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber);
+        Task<UpdatedUserDTO> UpdateUser(UpdatedUserDTO userDTO);
     }
 }
