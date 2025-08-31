@@ -34,12 +34,15 @@ namespace UserServiceTest
                 PhoneNumber = new PhoneNumber { Number = "+5524994210951" },
                 Password = new Password { UserPassword = "12345678" },
                 BirthdayDate = "04/03/1997",
-                Teams = new List<TeamsAndFunctions>
+                Teams = new List<UserTeam>
                 {
-                    new TeamsAndFunctions
+                    new UserTeam
                     {
-                        Teams = Team.Music_Team,
-                        Functions = Team_Function.Music_Team_Guitar,
+                        Teams = new TeamsAndFunctions
+                        {
+                            Teams = Team.Music_Team,
+                            Functions = Team_Function.Music_Team_Guitar,
+                        }
                     }
                 },
                 IsLeader = false
@@ -58,7 +61,7 @@ namespace UserServiceTest
             await _mockUserRepository.Object.AddAsync(_mockUser);
             var addedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(addedUser);
+            Assert.That(addedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(addedUser.Name));
         }
 
@@ -70,7 +73,7 @@ namespace UserServiceTest
 
             var foundUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(foundUser);
+            Assert.That(foundUser, Is.Not.Null);
             Assert.That(foundUser.Name, Is.EqualTo("Fulano2"));
         }
 
@@ -82,7 +85,7 @@ namespace UserServiceTest
 
             var phoneNumberExists = await _mockUserRepository.Object.UserExistsByPhoneNumberAsync(_mockUser.PhoneNumber.Number);
 
-            Assert.IsTrue(phoneNumberExists);
+            Assert.That(phoneNumberExists, Is.True);
         }
         [Test]
         public async Task ShouldFindUserAndDeleteByEmailAsync()
@@ -95,7 +98,7 @@ namespace UserServiceTest
 
             await _mockUserRepository.Object.FindUserAndDeleteByEmailAsync(_mockUser.Email.EmailAddress);
             var userIsDeleted = await _mockUserRepository.Object.UserExistsByEmailAsync(_mockUser.Email.EmailAddress);
-            Assert.IsFalse(userIsDeleted);
+            Assert.That(userIsDeleted, Is.False);
         }
         [Test]
         public async Task ShouldUpdateUserInformation()
@@ -107,7 +110,7 @@ namespace UserServiceTest
 
             var updatedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(updatedUser);
+            Assert.That(updatedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(updatedUser.Name));
         }
     }

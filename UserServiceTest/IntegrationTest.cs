@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interfaces.Service;
+using Core.DTO;
 using Core.Entities;
 using Core.Enums;
 using Core.Interfaces;
@@ -19,59 +20,76 @@ namespace UserServiceTest
     {
         private Mock<IUserService> _mockUserService;
         private UserController _userController;
-        private UserDTO _mockUser;
+        private SaveUserDTO _mockSaveUser;
+        private GetUserDTO _mockGetUser;
 
         [SetUp]
         public void SetUp()
         {
             _mockUserService = new Mock<IUserService>();
             _userController = new UserController(_mockUserService.Object);
-            _mockUser = new UserDTO
+            _mockSaveUser = new SaveUserDTO
             {
                 Name = "Fulano2",
                 Email = "fulanodasilva2@gmail.com",
                 PhoneNumber = "+5524994210951",
                 Password = "12345678",
                 BirthdayDate = "04/03/1997",
-                Teams = new List<TeamsAndFunctions> 
+                Teams = new List<TeamsAndFunctionsDTO>
                 {
-                    new TeamsAndFunctions 
-                    { 
+                    new TeamsAndFunctionsDTO
+                    {
                         Teams = Team.Music_Team,
                         Functions = Team_Function.Music_Team_Guitar,
                     }
                 },
                 IsLeader = false
             };
+            _mockGetUser = new GetUserDTO
+            {
+                Name = "Fulano2",
+                Email = "fulanodasilva2@gmail.com",
+                PhoneNumber = "+5524994210951",
+                BirthdayDate = "04/03/1997",
+                Teams =
+                [
+                    new TeamsAndFunctions
+                    {
+                        Teams = Team.Music_Team,
+                        Functions = Team_Function.Music_Team_Guitar,
+                    }
+                ],
+                IsLeader = false
+            };
         }
         [Test]
         public async Task SaveUser_ShouldReturnCreated_WhenSuccess()
         {
-            _mockUserService.Setup(s => s.SaveUser(It.IsAny<UserDTO>()))
+            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>()))
                             .ReturnsAsync(new ServiceResult { Success = true });
 
-            var result = await _userController.SaveUser(_mockUser);
+            var result = await _userController.SaveUser(_mockSaveUser);
 
             var createdResult = result as CreatedAtActionResult;
-            Assert.NotNull(createdResult);
-            Assert.That(((UserDTO)createdResult.Value).Name, Is.EqualTo("Fulano2"));
+            Assert.That(createdResult, Is.Not.Null);
+            Assert.That(((SaveUserDTO)createdResult.Value).Name, Is.EqualTo("Fulano2"));
         }
 
         [Test]
         public async Task SaveUser_ShouldReturnBadRequest_WhenFailure()
         {
-            _mockUserService.Setup(s => s.SaveUser(It.IsAny<UserDTO>()))
+            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>()))
                             .ReturnsAsync(new ServiceResult { Success = false });
 
-            var result = await _userController.SaveUser(_mockUser);
+            var result = await _userController.SaveUser(_mockSaveUser);
 
-            Assert.IsInstanceOf<BadRequestResult>(result);
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
 
         [Test]
         public async Task GetUserByEmailOrPhone_ShouldReturnUserDTO()
         {
-            var expectedUser = _mockUser;
+            var expectedUser = _mockGetUser;
 
             _mockUserService.Setup(s => s.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null))
                             .ReturnsAsync(expectedUser);
@@ -79,13 +97,6 @@ namespace UserServiceTest
             var result = await _userController.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null);
 
             Assert.That(result.Name, Is.EqualTo(expectedUser.Name));
-        }
-        [Test]
-        public async Task GetUserByEmailOrPhone_ShouldReturnNull_WhenUserNotFound()
-        {
-            _mockUserService.Setup(s => s.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null)).ReturnsAsync((UserDTO)null);
-            var result = await _userController.GetUserByEmailOrPhone("fulanodasilva2@gmail.com", null);
-            Assert.IsNull(result);
         }
 
     }

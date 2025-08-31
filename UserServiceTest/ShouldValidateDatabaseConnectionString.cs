@@ -26,7 +26,7 @@ namespace UserServiceTest
         public void ValidateIfConnectionStringExists()
         {
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            Assert.IsNotNull(connectionString);
+            Assert.That(connectionString, Is.Not.Null);
         }
         [Test]
         public void ValidateConnection()
