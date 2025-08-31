@@ -73,32 +73,6 @@ namespace Application.Services
             }
         }
 
-        private IList<UserTeam> CreateUserTeams(User user, IList<ITeamsAndFunctions> teams)
-        {
-            var userTeams = new List<UserTeam>();
-
-            foreach (var team in teams)
-            {
-                var teamsAndFunctions = new TeamsAndFunctions
-                {
-                    Teams = team.Teams,
-                    Functions = team.Functions,
-                    UserTeams = new List<UserTeam>() 
-                };
-
-                var userTeam = new UserTeam
-                {
-                    User = user,
-                    Teams = teamsAndFunctions
-                };
-                teamsAndFunctions.UserTeams.Add(userTeam);
-
-                userTeams.Add(userTeam);
-            }
-
-            return userTeams;
-        }
-
         public async Task<GetUserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
         {
             try
@@ -127,7 +101,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<UpdatedUserDTO> UpdateUser(UpdatedUserDTO user)
+        public async Task<GetUserDTO> UpdateUser(UpdatedUserDTO user)
         {
             try
             {
@@ -145,27 +119,57 @@ namespace Application.Services
                 userFounded.Name = user.Name ?? userFounded.Name;
                 userFounded.BirthdayDate = user.BirthdayDate ?? userFounded.BirthdayDate;
                 userFounded.IsLeader = user.IsLeader;
-                userFounded.Teams = [];
                 var mappedTeamsAndFunctions = TeamsAndFunctionsMapper.ToDomainList(user.Teams);
                 var teamsToSaveInUser = CreateUserTeams(userFounded, mappedTeamsAndFunctions);
-                userFounded.Teams = teamsToSaveInUser;
+                userFounded.Teams = UpdateUserTeam(userFounded, teamsToSaveInUser);
 
 
                 await _userRepository.UpdateAsync(userFounded);
-                return new UpdatedUserDTO
+                return new GetUserDTO
                 {
                     Name = userFounded.Name,
                     Email = userFounded.Email.EmailAddress,
                     PhoneNumber = userFounded.PhoneNumber.Number,
                     BirthdayDate = userFounded.BirthdayDate,
                     IsLeader = userFounded.IsLeader,
-                    Teams = (IList<Core.DTO.TeamsAndFunctionsDTO>)GetTeamsAndFunctionsList(userFounded.Teams)
+                    Teams = GetTeamsAndFunctionsList(userFounded.Teams)
                 };
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+        private IList<UserTeam> CreateUserTeams(User user, IList<ITeamsAndFunctions> teams)
+        {
+            var userTeams = new List<UserTeam>();
+
+            foreach (var team in teams)
+            {
+                var teamsAndFunctions = new TeamsAndFunctions
+                {
+                    Teams = team.Teams,
+                    Functions = team.Functions,
+                    UserTeams = new List<UserTeam>()
+                };
+
+                var userTeam = new UserTeam
+                {
+                    User = user,
+                    Teams = teamsAndFunctions
+                };
+                teamsAndFunctions.UserTeams.Add(userTeam);
+
+                userTeams.Add(userTeam);
+            }
+
+            return userTeams;
+        }
+        private IList<UserTeam> UpdateUserTeam(User user, IList<UserTeam> listToAdd)
+        {
+            var actualList = user.Teams;
+            var updatedList = actualList.Union(listToAdd);
+            return updatedList.ToList();
         }
         private IList<TeamsAndFunctions> GetTeamsAndFunctionsList(ICollection<UserTeam> teamsList)
         {

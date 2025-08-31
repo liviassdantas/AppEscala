@@ -44,5 +44,18 @@ namespace HolyEscalasWebService.Controllers
             var result = await _userService.GetUserByEmailOrPhone(email, phoneNumber);
             return result;
         }
+
+        /// <summary>
+        /// It's update an user
+        /// </summary>
+        /// <param name="updatedUser"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<GetUserDTO> UpdateUser(UpdatedUserDTO updatedUser)
+        {
+            var result = await _userService.UpdateUser(updatedUser);
+
+            return result;
+        }
     }
 }
