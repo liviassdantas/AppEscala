@@ -1,10 +1,13 @@
 ﻿using Application.DTO;
-using Core.Interfaces;
 using Application.Interfaces.Service;
 using Core.Entities;
+using Core.Interfaces;
+using Core.Interfaces.Entities;
+using Core.Mapper;
 using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +22,7 @@ namespace Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ServiceResult> SaveUser(UserDTO userDTO)
+        public async Task<ServiceResult> SaveUser(SaveUserDTO userDTO)
         {
             try
             {
@@ -31,12 +34,16 @@ namespace Application.Services
                         Name = userDTO.Name,
                         Email = new Email { EmailAddress = userDTO.Email },
                         PhoneNumber = new PhoneNumber { Number = userDTO.PhoneNumber },
-                        Team = userDTO.Team,
-                        Team_Function = userDTO.Team_Function,
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
-                        CreatedAt = DateTime.Now
+                        Password = new Password { UserPassword = userDTO.Password },
+                        CreatedAt = DateTime.Now,
+                        Teams = [] 
                     };
+                    var mappedTeamsAndFunctions = TeamsAndFunctionsMapper.ToDomainList(userDTO.Teams);
+                    var teamsToSaveInUser = CreateUserTeams(userToSave, mappedTeamsAndFunctions);
+                    userToSave.Teams = teamsToSaveInUser;
+
 
                     await _userRepository.AddAsync(userToSave);
 
@@ -46,7 +53,6 @@ namespace Application.Services
                         Success = true,
                         User = userToSave
                     };
-
                 }
                 else
                 {
@@ -67,7 +73,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<UserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
+        public async Task<GetUserDTO> GetUserByEmailOrPhone(string? email, string? phoneNumber)
         {
             try
             {
@@ -77,14 +83,13 @@ namespace Application.Services
                 if(!String.IsNullOrEmpty(phoneNumber))
                     userFounded = await _userRepository.FindUserByPhoneNumberAsync(phoneNumber);
 
-                var userToReturn = new UserDTO
+                var userToReturn = new GetUserDTO
                 {
                     Email = userFounded.Email.EmailAddress,
                     IsLeader = userFounded.IsLeader,
                     Name = userFounded.Name,
                     PhoneNumber = userFounded.PhoneNumber.Number,
-                    Team = userFounded.Team,
-                    Team_Function = userFounded.Team_Function,
+                    Teams = GetTeamsAndFunctionsList(userFounded.Teams),
                     BirthdayDate = userFounded.BirthdayDate,
                 };
                 return userToReturn;
@@ -96,7 +101,91 @@ namespace Application.Services
             }
         }
 
-        private bool VerifyIfDTOFieldsAreEmpty(UserDTO userDTO)
+        public async Task<GetUserDTO> UpdateUser(UpdatedUserDTO user)
+        {
+            try
+            {
+                var userFounded = new User();
+                if (!String.IsNullOrEmpty(user.Email))
+                    userFounded = await _userRepository.FindUserByEmailAsync(user.Email);
+                if (!String.IsNullOrEmpty(user.PhoneNumber))
+                    userFounded = await _userRepository.FindUserByPhoneNumberAsync(user.PhoneNumber);
+
+                if (userFounded == null)
+                {
+                    new InvalidOperationException("Usuário não encontrado.");
+                }
+
+                userFounded.Name = user.Name ?? userFounded.Name;
+                userFounded.BirthdayDate = user.BirthdayDate ?? userFounded.BirthdayDate;
+                userFounded.IsLeader = user.IsLeader;
+                var mappedTeamsAndFunctions = TeamsAndFunctionsMapper.ToDomainList(user.Teams);
+                var teamsToSaveInUser = CreateUserTeams(userFounded, mappedTeamsAndFunctions);
+                userFounded.Teams = UpdateUserTeam(userFounded, teamsToSaveInUser);
+
+
+                await _userRepository.UpdateAsync(userFounded);
+                return new GetUserDTO
+                {
+                    Name = userFounded.Name,
+                    Email = userFounded.Email.EmailAddress,
+                    PhoneNumber = userFounded.PhoneNumber.Number,
+                    BirthdayDate = userFounded.BirthdayDate,
+                    IsLeader = userFounded.IsLeader,
+                    Teams = GetTeamsAndFunctionsList(userFounded.Teams)
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        private IList<UserTeam> CreateUserTeams(User user, IList<ITeamsAndFunctions> teams)
+        {
+            var userTeams = new List<UserTeam>();
+
+            foreach (var team in teams)
+            {
+                var teamsAndFunctions = new TeamsAndFunctions
+                {
+                    Teams = team.Teams,
+                    Functions = team.Functions,
+                    UserTeams = new List<UserTeam>()
+                };
+
+                var userTeam = new UserTeam
+                {
+                    User = user,
+                    Teams = teamsAndFunctions
+                };
+                teamsAndFunctions.UserTeams.Add(userTeam);
+
+                userTeams.Add(userTeam);
+            }
+
+            return userTeams;
+        }
+        private IList<UserTeam> UpdateUserTeam(User user, IList<UserTeam> listToAdd)
+        {
+            var actualList = user.Teams;
+            var updatedList = actualList.Union(listToAdd);
+            return updatedList.ToList();
+        }
+        private IList<TeamsAndFunctions> GetTeamsAndFunctionsList(ICollection<UserTeam> teamsList)
+        {
+            List<TeamsAndFunctions> teamsListToReturn = new List<TeamsAndFunctions>();
+            foreach(var userTeam in teamsList)
+            {
+                var teamsAndFunctions = new TeamsAndFunctions
+                {
+                    Teams = userTeam.Teams.Teams,
+                    Functions = userTeam.Teams.Functions
+                };
+                teamsListToReturn.Add(teamsAndFunctions);
+            }
+            return teamsListToReturn;
+        }
+        private bool VerifyIfDTOFieldsAreEmpty(SaveUserDTO userDTO)
         {
             var isValid = true;
             if (userDTO == null) { return !isValid; throw new ArgumentNullException(nameof(userDTO)); };

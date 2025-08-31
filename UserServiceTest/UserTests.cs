@@ -1,16 +1,17 @@
-using Core.Enums;
+using Application.DTO;
 using Core.Entities;
-using Core.ValueObjects;
-using System.ComponentModel.DataAnnotations;
-using Infrastructure.Data.Repositories;
+using Core.Enums;
 using Core.Interfaces;
+using Core.ValueObjects;
 using Infrastructure.Data;
-using MySql.Data.MySqlClient;
-using Microsoft.Extensions.Configuration;
+using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Moq;
+using MySql.Data.MySqlClient;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 
 namespace UserServiceTest
 {
@@ -26,15 +27,26 @@ namespace UserServiceTest
         {
             _mockUserRepository = new Mock<IUserRepository>();
 
-            _mockUser = new User(
-                "Fulano2",
-                "04/03/1997",
-                new PhoneNumber { Number = "+5524994210951" },
-                new Email { EmailAddress = "fulanodasilva2@gmail.com" },
-                Team.Music_Team,
-                Team_Function.Music_Team_Guitar,
-                false
-            );
+            _mockUser = new User
+            {
+                Name = "Fulano2",
+                Email = new Email { EmailAddress = "fulanodasilva2@gmail.com" },
+                PhoneNumber = new PhoneNumber { Number = "+5524994210951" },
+                Password = new Password { UserPassword = "12345678" },
+                BirthdayDate = "04/03/1997",
+                Teams = new List<UserTeam>
+                {
+                    new UserTeam
+                    {
+                        Teams = new TeamsAndFunctions
+                        {
+                            Teams = Team.Music_Team,
+                            Functions = Team_Function.Music_Team_Guitar,
+                        }
+                    }
+                },
+                IsLeader = false
+            };
         }
 
         [Test]
@@ -49,7 +61,7 @@ namespace UserServiceTest
             await _mockUserRepository.Object.AddAsync(_mockUser);
             var addedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(addedUser);
+            Assert.That(addedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(addedUser.Name));
         }
 
@@ -61,8 +73,8 @@ namespace UserServiceTest
 
             var foundUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(foundUser);
-            Assert.That("Fulano2", Is.EqualTo(foundUser.Name));
+            Assert.That(foundUser, Is.Not.Null);
+            Assert.That(foundUser.Name, Is.EqualTo("Fulano2"));
         }
 
         [Test]
@@ -73,7 +85,7 @@ namespace UserServiceTest
 
             var phoneNumberExists = await _mockUserRepository.Object.UserExistsByPhoneNumberAsync(_mockUser.PhoneNumber.Number);
 
-            Assert.IsTrue(phoneNumberExists);
+            Assert.That(phoneNumberExists, Is.True);
         }
         [Test]
         public async Task ShouldFindUserAndDeleteByEmailAsync()
@@ -86,7 +98,7 @@ namespace UserServiceTest
 
             await _mockUserRepository.Object.FindUserAndDeleteByEmailAsync(_mockUser.Email.EmailAddress);
             var userIsDeleted = await _mockUserRepository.Object.UserExistsByEmailAsync(_mockUser.Email.EmailAddress);
-            Assert.IsFalse(userIsDeleted);
+            Assert.That(userIsDeleted, Is.False);
         }
         [Test]
         public async Task ShouldUpdateUserInformation()
@@ -98,7 +110,7 @@ namespace UserServiceTest
 
             var updatedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
 
-            Assert.IsNotNull(updatedUser);
+            Assert.That(updatedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(updatedUser.Name));
         }
     }

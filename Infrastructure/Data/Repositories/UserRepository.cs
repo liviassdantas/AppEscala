@@ -26,19 +26,27 @@ namespace Infrastructure.Data.Repositories
             {
                 throw new InvalidOperationException($"O usuário {user.Name} já está cadastrado no sistema.");
             }
-           await _context.Users.AddAsync(user);
-           await _context.SaveChangesAsync();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<User> FindUserByEmailAsync(string email)
         {
-            var user  = await _context.Users.Include(e => e.Email).FirstOrDefaultAsync(u => u.Email.EmailAddress == email);
+            var user = await _context.Users
+                             .Include(u => u.Teams)
+                              .Include(u => u.Teams)
+                                 .ThenInclude(ut => ut.Teams)
+                              .FirstOrDefaultAsync(u => u.Email.EmailAddress == email);
             return user;
         }
 
         public async Task<User> FindUserByPhoneNumberAsync(string phoneNumber)
         {
-            var user = await _context.Users.Include(e => e.PhoneNumber).FirstOrDefaultAsync(u => u.PhoneNumber.Number == phoneNumber);
+            var user = await _context.Users
+                            .Include(u => u.Teams)
+                             .Include(u => u.Teams)
+                                .ThenInclude(ut => ut.Teams)
+                             .FirstOrDefaultAsync(u => u.PhoneNumber.Number == phoneNumber);
             return user;
         }
 
@@ -54,14 +62,14 @@ namespace Infrastructure.Data.Repositories
         public async Task FindUserAndDeleteByEmailAsync(string email)
         {
             var user = await FindUserByEmailAsync(email);
-            if ( user != null)
+            if (user != null)
             {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
             else
             {
-               throw new InvalidOperationException("O usuário não pôde ser localizado.");
+                throw new InvalidOperationException("O usuário não pôde ser localizado.");
             }
         }
 
@@ -90,15 +98,12 @@ namespace Infrastructure.Data.Repositories
             existingUser.Email = user.Email;
             existingUser.PhoneNumber = user.PhoneNumber;
             existingUser.BirthdayDate = user.BirthdayDate;
-            existingUser.Team = user.Team;
-            existingUser.Team_Function = user.Team_Function;
+            existingUser.Teams = user.Teams;
             existingUser.IsLeader = user.IsLeader;
 
             _context.Users.Update(existingUser);
             await _context.SaveChangesAsync();
         }
 
-
-        private AppDbContext AppDbContext => _context as AppDbContext;
     }
 }

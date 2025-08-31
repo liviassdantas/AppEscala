@@ -1,4 +1,7 @@
-﻿using Core.Enums;
+﻿using Core.DTO;
+using Core.Entities;
+using Core.Enums;
+using Core.Interfaces.Entities;
 using Core.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -9,17 +12,16 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class UserDTO
+    public class SaveUserDTO
     {
-        public UserDTO() { }
-        public UserDTO(
+        public SaveUserDTO() { }
+        public SaveUserDTO(
            string name,
            Email email,
            Password password,
            PhoneNumber phoneNumber,
            string birthdayDate,
-           Team team,
-           Team_Function team_Function,
+           List<TeamsAndFunctionsDTO> teams,
            bool isLeader = false)
         {
             Name = name;
@@ -27,8 +29,7 @@ namespace Application.DTO
             PhoneNumber = phoneNumber.Number;
             Password = password.UserPassword;
             BirthdayDate = birthdayDate;
-            Team = team;
-            Team_Function = team_Function;
+            IList<TeamsAndFunctionsDTO> teamsList = teams;
             IsLeader = isLeader;
         }
         public string Name { get; set; }
@@ -36,8 +37,7 @@ namespace Application.DTO
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string BirthdayDate { get; set; }
-        public Team Team { get; set; }
-        public Team_Function Team_Function { get; set; }
+        public IList<TeamsAndFunctionsDTO> Teams { get; set; } 
         public bool IsLeader { get; set; } = false;
     }
 }
