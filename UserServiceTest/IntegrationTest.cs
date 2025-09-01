@@ -33,7 +33,6 @@ namespace UserServiceTest
                 Name = "Fulano2",
                 Email = "fulanodasilva2@gmail.com",
                 PhoneNumber = "+5524994210951",
-                Password = "12345678",
                 BirthdayDate = "04/03/1997",
                 Teams = new List<TeamsAndFunctionsDTO>
                 {

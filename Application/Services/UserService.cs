@@ -32,11 +32,10 @@ namespace Application.Services
                     var userToSave = new User
                     {
                         Name = userDTO.Name,
-                        Email = new Email { EmailAddress = userDTO.Email },
+                        Email = userDTO.Email,
                         PhoneNumber = new PhoneNumber { Number = userDTO.PhoneNumber },
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
-                        Password = new Password { UserPassword = userDTO.Password },
                         CreatedAt = DateTime.Now,
                         Teams = [] 
                     };
@@ -85,7 +84,7 @@ namespace Application.Services
 
                 var userToReturn = new GetUserDTO
                 {
-                    Email = userFounded.Email.EmailAddress,
+                    Email = userFounded.Email,
                     IsLeader = userFounded.IsLeader,
                     Name = userFounded.Name,
                     PhoneNumber = userFounded.PhoneNumber.Number,
@@ -128,7 +127,7 @@ namespace Application.Services
                 return new GetUserDTO
                 {
                     Name = userFounded.Name,
-                    Email = userFounded.Email.EmailAddress,
+                    Email = userFounded.Email,
                     PhoneNumber = userFounded.PhoneNumber.Number,
                     BirthdayDate = userFounded.BirthdayDate,
                     IsLeader = userFounded.IsLeader,

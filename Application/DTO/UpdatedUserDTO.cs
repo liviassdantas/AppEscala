@@ -14,14 +14,14 @@ namespace Application.DTO
         public UpdatedUserDTO() { }
         public UpdatedUserDTO(
            string? name,
-           Email? email,
+           string email,
            PhoneNumber? phoneNumber,
            string? birthdayDate,
            List<TeamsAndFunctionsDTO> teams,
            bool isLeader = false)
         {
             Name = name;
-            Email = email.EmailAddress;
+            Email = email;
             PhoneNumber = phoneNumber.Number;
             BirthdayDate = birthdayDate;
             IList<TeamsAndFunctionsDTO> teamsList = teams;

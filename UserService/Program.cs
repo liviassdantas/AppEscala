@@ -1,9 +1,11 @@
 using Application.Interfaces.Service;
 using Application.Services;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
 
@@ -11,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 5))));
+
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -51,6 +55,8 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
     options.DefaultModelsExpandDepth(-1);
 });
+app.MapSwagger();
+app.MapIdentityApi<User>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

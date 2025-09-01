@@ -17,17 +17,15 @@ namespace Application.DTO
         public SaveUserDTO() { }
         public SaveUserDTO(
            string name,
-           Email email,
-           Password password,
+           string email,
            PhoneNumber phoneNumber,
            string birthdayDate,
            List<TeamsAndFunctionsDTO> teams,
            bool isLeader = false)
         {
             Name = name;
-            Email = email.EmailAddress;
+            Email = email;
             PhoneNumber = phoneNumber.Number;
-            Password = password.UserPassword;
             BirthdayDate = birthdayDate;
             IList<TeamsAndFunctionsDTO> teamsList = teams;
             IsLeader = isLeader;
@@ -35,7 +33,6 @@ namespace Application.DTO
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string Password { get; set; }
         public string BirthdayDate { get; set; }
         public IList<TeamsAndFunctionsDTO> Teams { get; set; } 
         public bool IsLeader { get; set; } = false;

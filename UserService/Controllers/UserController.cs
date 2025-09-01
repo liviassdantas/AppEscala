@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Core;
@@ -39,6 +40,7 @@ namespace HolyEscalasWebService.Controllers
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<GetUserDTO> GetUserByEmailOrPhone (string? email, string? phoneNumber)
         {
             var result = await _userService.GetUserByEmailOrPhone(email, phoneNumber);
@@ -51,6 +53,7 @@ namespace HolyEscalasWebService.Controllers
         /// <param name="updatedUser"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize]
         public async Task<GetUserDTO> UpdateUser(UpdatedUserDTO updatedUser)
         {
             var result = await _userService.UpdateUser(updatedUser);

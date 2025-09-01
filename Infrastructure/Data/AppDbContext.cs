@@ -1,14 +1,14 @@
 ﻿using Core.Entities;
 using Core.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<User>(options)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<TeamsAndFunctions> TeamsAndFunctions { get; set; }
@@ -62,37 +62,14 @@ namespace Infrastructure.Data
             entity.Property(e => e.IsLeader).IsRequired();
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            ConfigureEmailAddress(entity);
             ConfigurePhoneNumber(entity);
-            ConfigurePassword(entity);
         }
-
-        private void ConfigureEmailAddress(EntityTypeBuilder<User> entity)
-        {
-            entity.OwnsOne(e => e.Email, a =>
-            {
-                a.Property(email => email.EmailAddress)
-                 .HasColumnName("Email")
-                 .IsRequired();
-            });
-        }
-
         private void ConfigurePhoneNumber(EntityTypeBuilder<User> entity)
         {
             entity.OwnsOne(e => e.PhoneNumber, a =>
             {
                 a.Property(p => p.Number)
                  .HasColumnName("PhoneNumber")
-                 .IsRequired();
-            });
-        }
-
-        private void ConfigurePassword(EntityTypeBuilder<User> entity)
-        {
-            entity.OwnsOne(e => e.Password, a =>
-            {
-                a.Property(p => p.UserPassword)
-                 .HasColumnName("Password")
                  .IsRequired();
             });
         }

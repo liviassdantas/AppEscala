@@ -15,14 +15,14 @@ namespace Application.DTO
         public GetUserDTO() { }
         public GetUserDTO(
            string name,
-           Email email,
+           string email,
            PhoneNumber phoneNumber,
            string birthdayDate,
            List<TeamsAndFunctions> teams,
            bool isLeader = false)
         {
             Name = name;
-            Email = email.EmailAddress;
+            Email = email;
             PhoneNumber = phoneNumber.Number;
             BirthdayDate = birthdayDate;
             IList<TeamsAndFunctions> teamsList = teams;

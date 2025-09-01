@@ -30,9 +30,8 @@ namespace UserServiceTest
             _mockUser = new User
             {
                 Name = "Fulano2",
-                Email = new Email { EmailAddress = "fulanodasilva2@gmail.com" },
+                Email = "fulanodasilva2@gmail.com",
                 PhoneNumber = new PhoneNumber { Number = "+5524994210951" },
-                Password = new Password { UserPassword = "12345678" },
                 BirthdayDate = "04/03/1997",
                 Teams = new List<UserTeam>
                 {
@@ -55,11 +54,11 @@ namespace UserServiceTest
             _mockUserRepository.Setup(repo => repo.AddAsync(It.IsAny<User>()))
                            .Returns(Task.CompletedTask);
 
-            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email.EmailAddress))
+            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email))
                                .ReturnsAsync(_mockUser);
 
             await _mockUserRepository.Object.AddAsync(_mockUser);
-            var addedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
+            var addedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email);
 
             Assert.That(addedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(addedUser.Name));
@@ -68,10 +67,10 @@ namespace UserServiceTest
         [Test]
         public async Task ShouldValidateUserExistByEmailAsync()
         {
-            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email.EmailAddress))
+            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email))
                            .ReturnsAsync(_mockUser);
 
-            var foundUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
+            var foundUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email);
 
             Assert.That(foundUser, Is.Not.Null);
             Assert.That(foundUser.Name, Is.EqualTo("Fulano2"));
@@ -90,25 +89,25 @@ namespace UserServiceTest
         [Test]
         public async Task ShouldFindUserAndDeleteByEmailAsync()
         {
-            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email.EmailAddress))
+            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email))
                           .ReturnsAsync(_mockUser);
 
-            _mockUserRepository.Setup(repo => repo.UserExistsByEmailAsync(_mockUser.Email.EmailAddress))
+            _mockUserRepository.Setup(repo => repo.UserExistsByEmailAsync(_mockUser.Email))
                                .ReturnsAsync(false);
 
-            await _mockUserRepository.Object.FindUserAndDeleteByEmailAsync(_mockUser.Email.EmailAddress);
-            var userIsDeleted = await _mockUserRepository.Object.UserExistsByEmailAsync(_mockUser.Email.EmailAddress);
+            await _mockUserRepository.Object.FindUserAndDeleteByEmailAsync(_mockUser.Email);
+            var userIsDeleted = await _mockUserRepository.Object.UserExistsByEmailAsync(_mockUser.Email);
             Assert.That(userIsDeleted, Is.False);
         }
         [Test]
         public async Task ShouldUpdateUserInformation()
         {
-            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email.EmailAddress))
+            _mockUserRepository.Setup(repo => repo.FindUserByEmailAsync(_mockUser.Email))
                            .ReturnsAsync(_mockUser);
 
             await _mockUserRepository.Object.UpdateAsync(_mockUser);
 
-            var updatedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email.EmailAddress);
+            var updatedUser = await _mockUserRepository.Object.FindUserByEmailAsync(_mockUser.Email);
 
             Assert.That(updatedUser, Is.Not.Null);
             Assert.That(_mockUser.Name, Is.EqualTo(updatedUser.Name));
