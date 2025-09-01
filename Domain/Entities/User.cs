@@ -12,10 +12,11 @@ namespace Core.Entities
     public class User : IdentityUser
     {
         public Guid Id { get; set; }
-        public string? Name { get; set; }
-        public string? BirthdayDate { get; set; }
+        public string Name { get; set; }
+        public string BirthdayDate { get; set; }
         public PhoneNumber? PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public ICollection<UserTeam>? Teams { get; set; }
         public bool IsLeader { get; set; }
         public DateTime CreatedAt { get; set; }

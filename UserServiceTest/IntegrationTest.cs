@@ -5,6 +5,7 @@ using Core.Entities;
 using Core.Enums;
 using Core.Interfaces;
 using HolyEscalasWebService.Controllers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -22,6 +23,7 @@ namespace UserServiceTest
         private UserController _userController;
         private SaveUserDTO _mockSaveUser;
         private GetUserDTO _mockGetUser;
+        private UserManager<User> _mockUserManager;
 
         [SetUp]
         public void SetUp()
@@ -64,10 +66,10 @@ namespace UserServiceTest
         [Test]
         public async Task SaveUser_ShouldReturnCreated_WhenSuccess()
         {
-            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>()))
+            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>(), It.IsAny<UserManager<User>>()))
                             .ReturnsAsync(new ServiceResult { Success = true });
 
-            var result = await _userController.SaveUser(_mockSaveUser);
+            var result = await _userController.SaveUser(_mockSaveUser, _mockUserManager);
 
             var createdResult = result as CreatedAtActionResult;
             Assert.That(createdResult, Is.Not.Null);
@@ -77,10 +79,10 @@ namespace UserServiceTest
         [Test]
         public async Task SaveUser_ShouldReturnBadRequest_WhenFailure()
         {
-            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>()))
+            _mockUserService.Setup(s => s.SaveUser(It.IsAny<SaveUserDTO>(), It.IsAny<UserManager<User>>()))
                             .ReturnsAsync(new ServiceResult { Success = false });
 
-            var result = await _userController.SaveUser(_mockSaveUser);
+            var result = await _userController.SaveUser(_mockSaveUser, _mockUserManager);
 
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }

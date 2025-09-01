@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
+using Microsoft.AspNetCore.Routing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +57,7 @@ app.UseSwaggerUI(options =>
     options.DefaultModelsExpandDepth(-1);
 });
 app.MapSwagger();
-app.MapIdentityApi<User>();
+app.MapGroup("/api/user").MapIdentityApi<User>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

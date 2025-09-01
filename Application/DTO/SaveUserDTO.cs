@@ -19,6 +19,7 @@ namespace Application.DTO
            string name,
            string email,
            PhoneNumber phoneNumber,
+           string password,
            string birthdayDate,
            List<TeamsAndFunctionsDTO> teams,
            bool isLeader = false)
@@ -26,6 +27,7 @@ namespace Application.DTO
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber.Number;
+            Password = password;
             BirthdayDate = birthdayDate;
             IList<TeamsAndFunctionsDTO> teamsList = teams;
             IsLeader = isLeader;
@@ -33,6 +35,7 @@ namespace Application.DTO
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string Password { get; set; }
         public string BirthdayDate { get; set; }
         public IList<TeamsAndFunctionsDTO> Teams { get; set; } 
         public bool IsLeader { get; set; } = false;

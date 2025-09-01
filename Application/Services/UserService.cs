@@ -5,6 +5,7 @@ using Core.Interfaces;
 using Core.Interfaces.Entities;
 using Core.Mapper;
 using Core.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ServiceResult> SaveUser(SaveUserDTO userDTO)
+        public async Task<ServiceResult> SaveUser(SaveUserDTO userDTO, UserManager<User> userManager)
         {
             try
             {
@@ -34,8 +35,10 @@ namespace Application.Services
                         Name = userDTO.Name,
                         Email = userDTO.Email,
                         PhoneNumber = new PhoneNumber { Number = userDTO.PhoneNumber },
+                        Password = userDTO.Password,
                         IsLeader = userDTO.IsLeader,
                         BirthdayDate = userDTO.BirthdayDate,
+                        UserName = userDTO.Name,
                         CreatedAt = DateTime.Now,
                         Teams = [] 
                     };
@@ -43,15 +46,23 @@ namespace Application.Services
                     var teamsToSaveInUser = CreateUserTeams(userToSave, mappedTeamsAndFunctions);
                     userToSave.Teams = teamsToSaveInUser;
 
+                    var result = await userManager.CreateAsync(userToSave, userToSave.Password);
 
-                    await _userRepository.AddAsync(userToSave);
-
+                    if(result.Succeeded)
                     return new ServiceResult
                     {
                         Message = "Usuário cadastrado com sucesso!",
                         Success = true,
                         User = userToSave
                     };
+                    else
+                    {
+                        return new ServiceResult
+                        {
+                            Message = "Erro ao salvar o usuário. Verifique se todos os campos estão preenchidos corretamente e tente novamente.",
+                            Success = false,
+                        };
+                    }
                 }
                 else
                 {

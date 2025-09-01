@@ -22,7 +22,7 @@ namespace Infrastructure.Data.Repositories
         }
         public async Task AddAsync(User user)
         {
-            if (await UserExistsByEmailAsync(user.Email.EmailAddress))
+            if (await UserExistsByEmailAsync(user.Email))
             {
                 throw new InvalidOperationException($"O usuário {user.Name} já está cadastrado no sistema.");
             }
@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repositories
                              .Include(u => u.Teams)
                               .Include(u => u.Teams)
                                  .ThenInclude(ut => ut.Teams)
-                              .FirstOrDefaultAsync(u => u.Email.EmailAddress == email);
+                              .FirstOrDefaultAsync(u => u.Email == email);
             return user;
         }
 
@@ -57,7 +57,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<bool> UserExistsByEmailAsync(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email.EmailAddress == email);
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
         public async Task FindUserAndDeleteByEmailAsync(string email)
         {
@@ -84,9 +84,9 @@ namespace Infrastructure.Data.Repositories
                 throw new InvalidOperationException("O usuário não pôde ser localizado.");
             }
 
-            if (await UserExistsByEmailAsync(user.Email.EmailAddress) && existingUser.Email.EmailAddress != user.Email.EmailAddress)
+            if (await UserExistsByEmailAsync(user.Email) && existingUser.Email != user.Email)
             {
-                throw new InvalidOperationException($"Esse email {user.Email.EmailAddress} já está sendo utilizado.");
+                throw new InvalidOperationException($"Esse email {user.Email} já está sendo utilizado.");
             }
 
             if (await UserExistsByPhoneNumberAsync(user.PhoneNumber.Number) && existingUser.PhoneNumber.Number != user.PhoneNumber.Number)

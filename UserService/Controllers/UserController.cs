@@ -1,14 +1,16 @@
 ﻿using Application.DTO;
 using Application.Interfaces.Service;
+using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Core;
 
 namespace HolyEscalasWebService.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/user/")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,9 +25,10 @@ namespace HolyEscalasWebService.Controllers
         /// <param name="userDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SaveUser(SaveUserDTO userDTO)
+        [Route("/register")]
+        public async Task<IActionResult> SaveUser(SaveUserDTO userDTO, UserManager<User> userManager)
         {
-            var result = await _userService.SaveUser(userDTO);
+            var result = await _userService.SaveUser(userDTO, userManager);
             if (!result.Success)
             {
                 return BadRequest();
